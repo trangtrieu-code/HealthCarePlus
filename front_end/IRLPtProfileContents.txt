@@ -1,0 +1,17 @@
+On each visit, we collect:
+ 
+1) Raison de visite/chief complaint
+ 
+and we update:
+ 
+2) Medications and supplements  (this is linked with the registry of prescriptions, a separate DB for all of QC)
+3) ATCD (list of Diagnostics)
+4) Allergies and intolerances
+5) Trauma (fractures, concussions, MVAs, etc)
+6) Heredity (a- illness b-family member who had it)
+7) Reproductive health (pregnancies, last menstruation) 
+8) Substance use (tobacco, EtOH, recreative substances) 
+9) Vaccination (this is linked with the registry of vaccinations, a separate DB for all of QC)
+10) Notes additionelles (any additional info) (e.g. related to another pt, deceased, switched clinics, etc. )
+ 
+lmk if this is useful

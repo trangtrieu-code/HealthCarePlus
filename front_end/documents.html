@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="img/bonjour-sante.inline.svg" id="inline" alt="BS logo" class="img-fluid" style="max-width: 150px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="appointments_for_Pts.html">View Your Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="search-criteria.html">Book An Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="documents.html">View Documents</a>
+                    </li>
+                </ul>
+            </div>
+            <!--OPTIONAL: add a Log Out button-->
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Document Management</h1>
+        <div id="apiStatus" class="alert alert-warning" style="display: none;">
+            API is not available. Some features may not work.
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Document List</h2>
+                <table id="listTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>File Name</th>
+                            <th>Type</th>
+                            <th>Upload Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h2>Add New Document</h2>
+                <form id="documentForm">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title:</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File:</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="saveOrAdd">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div class="modal fade" id="documentModal" tabindex="-1" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentModalLabel">Document Viewer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="documentContent">
+                    <!-- Document content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary" id="downloadLink" download>Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            checkApiAvailability();
+            refreshList();
+
+            $("#documentForm").submit(function (e) {
+                e.preventDefault();
+                let titleVal = $("#title").val();
+                let file = $("#file").prop('files')[0];
+                if (!file) {
+                    alert("Please select a file");
+                    return;
+                }
+                let mimeTypeVal = file.type;
+                let reader = new FileReader();
+                reader.onload = function () {
+                    let docObj = { 
+                        user_id: 1, // FIXME: Replace with actual user ID
+                        file_name: file.name,
+                        title: titleVal,
+                        mimeType: mimeTypeVal,
+                        data: btoa(reader.result),
+                        file_path: file.name 
+                    };
+                    $.ajax({
+                        url: "http://localhost:8000/api/documents",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(docObj),
+                        error: handleAjaxError
+                    }).done(function () {
+                        alert("Upload successful");
+                        $("#documentForm")[0].reset();
+                        refreshList();
+                    });
+                };
+                reader.readAsBinaryString(file);
+            });
+
+            // Add click event listener for the View links
+            $("#listTable").on("click", "a", function(e) {
+                e.preventDefault();
+                let url = $(this).attr("href");
+                
+                // Show loading indicator
+                $("#documentContent").html('<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+                $("#documentModal").modal("show");
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $("#documentModalLabel").text(data.title);
+                        
+                        let content;
+                        if (data.mimeType.startsWith('image/')) {
+                            content = `<img src="data:${data.mimeType};base64,${data.data}" class="img-fluid" alt="${data.title}">`;
+                        } else if (data.mimeType === 'application/pdf') {
+                            content = `<iframe src="data:${data.mimeType};base64,${data.data}" width="100%" height="500px"></iframe>`;
+                        } else {
+                            content = `<p>Preview not available for this file type. Please download to view.</p>`;
+                        }
+                        
+                        $("#documentContent").html(content);
+                        $("#downloadLink").attr("href", `data:${data.mimeType};base64,${data.data}`);
+                        $("#downloadLink").attr("download", data.file_name);
+                    },
+                    error: handleAjaxError
+                });
+            });
+
+            // Add click event listener for the Print button
+            $("#printDocument").click(function() {
+                let iframe = $("#documentContent iframe")[0];
+                if (iframe) {
+                    iframe.contentWindow.print();
+                } else {
+                    let image = $("#documentContent img")[0];
+                    if (image) {
+                        let win = window.open('');
+                        win.document.write(`<img src="${image.src}" onload="window.print();window.close()" />`);
+                        win.focus();
+                    } else {
+                        alert("Document not loaded or unsupported format for printing.");
+                    }
+                }
+            });
+        });
+
+        function checkApiAvailability() {
+            $.ajax({
+                url: "http://localhost:8000/api/documents",
+                type: "GET",
+                timeout: 5000,
+                error: function () {
+                    $("#apiStatus").show();
+                }
+            });
+        }
+
+        function refreshList() {
+            $.ajax({
+                url: "http://localhost:8000/api/documents",
+                type: "GET",
+                dataType: "json",
+                timeout: 5000,
+                success: function(data) {
+                    $("#apiStatus").hide();
+                    let tableBody = $("#listTable tbody");
+                    tableBody.empty();
+                    data.forEach(function(doc) {
+                        let row = $("<tr>");
+                        row.append($("<td>").text(doc.document_id));
+                        row.append($("<td>").text(doc.file_name));
+                        row.append($("<td>").text(doc.mimeType));
+                        row.append($("<td>").text(doc.upload_date));
+                        row.append($("<td>").html('<a href="http://localhost:8000/api/documents/' + doc.document_id + '">View</a>'));
+                        tableBody.append(row);
+                    });
+                },
+                error: function(jqxhr, status, errorThrown) {
+                    console.error("Error fetching documents:", status, errorThrown);
+                    $("#apiStatus").show();
+                    $("#listTable tbody").html('<tr><td colspan="5" class="text-center">Unable to fetch documents. Please try again later.</td></tr>');
+                }
+            });
+        }
+
+        function handleAjaxError(jqxhr, status, errorThrown) {
+            console.error("AJAX error:", status, errorThrown);
+            alert("An error occurred: " + jqxhr.responseText);
+        }
+    </script>
+</body>
+</html>

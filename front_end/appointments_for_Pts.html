@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Appointments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="img/bonjour-sante.inline.svg" id="inline" alt="BS logo" class="img-fluid" style="max-width: 150px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="appointments_for_Pts.html">View Your Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="search-criteria.html">Book An Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="documents.html">View Documents</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1 class="text-center m-4">Appointments</h1>
+
+    <h3 class="text-center">Your Upcoming Appointments</h3>
+    <ul id="upcoming-appointments" class="list-group text-center">
+        <!--table for upcoming appointments-->
+    </ul>
+
+    <h3 class="text-center">Your Past Appointments</h3>
+    <ul id="past-appointments" class="list-group text-center">
+        <!--table for past appointments -->
+    </ul>
+    
+    <!-- Footer -->
+    <footer class="mt-5 bg-light py-3 text-center">
+        <p>Contact us: info@bonjour-sante.com | +123 456 7890</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Get patientId from session storage
+            const patientId = sessionStorage.getItem('patientId');
+
+            console.log(sessionStorage.getItem('patientId'));
+
+    
+            // Use AJAX to get appointments data based on patient email
+            $.ajax({
+                url: `http://localhost:8000/api/patient/${patientId}/appointments`, // Adjust the API URL as needed
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const upcomingAppointments = data.upcoming;
+                    const pastAppointments = data.past;
+    
+                    // Populate the upcoming appointments list
+                    if (upcomingAppointments.length > 0) {
+                        upcomingAppointments.forEach(function (appointment) {
+                            const appointmentHtml = `
+                                <li class="list-group-item">
+                                    <strong>${new Date(appointment.appointment_date).toLocaleDateString()}</strong> - ${new Date(appointment.appointment_date).toLocaleTimeString()}<br>
+                                    <span>Doctor: ${appointment.doctor_id}</span><br>
+                                    <span>Status: ${appointment.status}</span>
+                                </li>
+                            `;
+                            $('#upcoming-appointments').append(appointmentHtml);
+                        });
+                    } else {
+                        $('#upcoming-appointments').append('<li class="list-group-item">No upcoming appointments</li>');
+                    }
+    
+                    // Populate the past appointments list
+                    if (pastAppointments.length > 0) {
+                        pastAppointments.forEach(function (appointment) {
+                            const appointmentHtml = `
+                                <li class="list-group-item">
+                                    <strong>${new Date(appointment.appointment_date).toLocaleDateString()}</strong> - ${new Date(appointment.appointment_date).toLocaleTimeString()}<br>
+                                    <span>Doctor: ${appointment.doctor_id}</span><br>
+                                    <span>Status: ${appointment.status}</span>
+                                </li>
+                            `;
+                            $('#past-appointments').append(appointmentHtml);
+                        });
+                    } else {
+                        $('#past-appointments').append('<li class="list-group-item">No past appointments</li>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching patient appointments:', error);
+                }
+            });
+        });
+    </script>
+    
+    <!--
+    <script>
+        $(document).ready(function () {
+            // Get the logged-in user's patientId from sessionStorage (or wherever it's stored)
+            const patientId = sessionStorage.getItem('patientId');  // Assuming you store patientId in sessionStorage
+
+            if (patientId) {
+                // Dynamically set the 'View Your Appointments' link
+                $('#view-appointments-link').attr('href', `/patients/${patientId}/appointments`);
+                
+                // Dynamically set the 'Book An Appointment' link (static, or you can update this if needed)
+                $('#book-appointment-link').attr('href', '/search-criteria.html');
+                
+                // Dynamically set the 'View Documents' link
+                $('#view-documents-link').attr('href', `/patients/${patientId}/documents`);
+            } else {
+                console.error('No user session found!');
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+-->
+</body>
+
+</html>

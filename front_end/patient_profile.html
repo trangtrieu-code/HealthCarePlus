@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+ 
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="img/bonjour-sante.inline.svg" id="inline" alt="BS logo" class="img-fluid" style="max-width: 150px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="appointments_for_Pts.html">View Your Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="search-criteria.html">Book An Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="documents.html">View Documents</a>
+                    </li>
+                </ul>
+            </div>
+            <!--OPTIONAL: add a Log Out button-->
+        </div>
+    </nav>
+ 
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Patient Profile</h1>
+ 
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Personal Information</h5>
+                <p class="card-text">
+                    <strong>Email:</strong> <span id="email"></span> <br>
+                    <strong>First Name:</strong> <span id="name"></span> <br>
+                    <strong>Family Name:</strong> <span id="familyName"></span> <br>
+                    <strong>Phone Number:</strong> <span id="phoneNumber"></span> <br>
+                    <strong>Postal Code:</strong> <span id="postalCode"></span> <br>
+                    <strong>Gender:</strong> <span id="gender"></span> <br>
+                    <strong>Date of Birth:</strong> <span id="dob"></span> <br>
+                    <strong>RAMQ Number:</strong> <span id="ramqNumber"></span> <br>
+                    <strong>Medical History:</strong> <span id="medicalHistory"></span> <br>
+                </p>
+            </div>
+        </div>
+ 
+        <!--in a later iteration, we could add a Google Maps API with the user location marked -->
+ 
+ 
+        <!-- "View Documents" Button -->
+        <div class="mt-4">
+            <h5>View Your Medical Documents</h5>
+            <a href="documents.html" class="btn btn-info">View Documents</a>
+        </div>
+ 
+ 
+        <!-- Profile Edit Section -->
+        <div class="mt-4">
+            <!-- Profile Edit Section -->
+            <div class="mt-4">
+                <h5>Edit Profile Information</h5>
+                <div>
+                    <div class="mb-3">
+                        <label for="postal-code" class="form-label">Postal Code</label>
+                        <input type="text" class="form-control" id="postalCodeInput" value="H1H1H1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneInput" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phoneInput" value="(123) 456-7890">
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="emailInput" value="john.doe@example.com">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+ 
+ 
+        </div>
+ 
+        <div class="mt-4">
+            <h5>Modify Password</h5>
+            <div class="mb-3">
+                <label for="currentPassword" class="form-label">Current Password</label>
+                <input type="password" class="form-control" id="currentPassword" required>
+            </div>
+            <div class="mb-3">
+                <label for="newPassword" class="form-label">New Password</label>
+                <input type="password" class="form-control" id="newPassword" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </div>
+ 
+    <!-- Footer -->
+    <footer class="mt-6 bg-light py-3 text-center">
+        <p>Contact us: info@bonjour-sante.com | +123 456 7890</p>
+    </footer>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+ 
+    <script>
+ 
+        function printDocuments() {
+            let printContent = document.getElementById('documents-list').innerHTML;
+            let printWindow = window.open('', '', 'height=500,width=800');
+            printWindow.document.write('<h1>Medical Documents</h1>');
+            printWindow.document.write('<ul>' + printContent + '</ul>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+ 
+ 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+    <script>
+        $(document).ready(function () {
+            // Get email from session storage
+            const patientEmail = sessionStorage.getItem('email');
+ 
+            // Use AJAX to get data from the API
+            $.ajax({
+                url: `http://localhost:8000/api/users/${patientEmail}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Populate the span elements with patient data
+                    $('#name').text(data.first_name);
+                    $('#familyName').text(data.family_name);
+                    $('#dob').text(data.dob);
+                    $('#ramqNumber').text(data.ramq_number);
+                    $('#phoneNumber').text(data.phone_no);
+                    $('#postalCode').text(data.postal_code);
+                    $('#email').text(data.email);
+                    $('#medicalHistory').text(data.health_history);
+                    $('#gender').text(data.gender);
+ 
+                    // Populate editable fields
+                    $('#postalCodeInput').val(data.postal_code);
+                    $('#phoneInput').val(data.phone_no);
+                    $('#emailInput').val(data.email);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching patient data:', error);
+                }
+            });
+        });
+    </script>
+ 
+</body>
+ 
+</html>

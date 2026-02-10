@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration for New Patients</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Z-Pane for Notifications -->
+    <div id="zPane" class="z-pane" style="display: none;">
+        <div id="zPaneMessage" class="z-pane-message"></div>
+    </div>
+
+
+    <nav class="navbar navbar-light bg-light">
+        <img src="img/bonjour-sante.inline.svg" id="inline" alt="medical team of the clinic" class="img-fluid">
+    </nav>
+
+    <!-- Registration Container -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">New Patients Registration</h1>
+
+        <!-- Registration Form -->
+        <div class="card p-4 shadow-sm">
+            <!-- Email Field -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Enter your email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Please enter your password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Please confirm your password</label>
+                <input type="password" class="form-control" id="confirm_password" placeholder="Confirm your password"
+                    required>
+            </div>
+
+            <!-- First Name Field -->
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first_name" placeholder="Enter your first name" required>
+            </div>
+
+            <!-- Family Name Field -->
+            <div class="mb-3">
+                <label for="family_name" class="form-label">Family Name</label>
+                <input type="text" class="form-control" id="family_name" placeholder="Enter your family name" required>
+            </div>
+
+            <!-- Phone Number Field -->
+            <div class="mb-3">
+                <label for="phone_no" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone_no" placeholder="Enter your phone number" required>
+            </div>
+
+            <!-- Postal Code Field -->
+            <div class="mb-3">
+                <label for="postal_code" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="postal_code" placeholder="Postal Code" required>
+            </div>
+
+            <!-- Gender Field -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-control" id="gender" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="X">Other</option>
+                </select>
+            </div>
+
+            <!-- Date of Birth Field -->
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" required>
+            </div>
+
+            <!-- RAMQ Number Field -->
+            <div class="mb-3">
+                <label for="ramq" class="form-label">RAMQ Number</label>
+                <input type="text" class="form-control" id="ramq" placeholder="ABCD12341234" required
+                    pattern="^[A-Za-z]{2}[A-Za-z]{2}\d{8}$"
+                    title="RAMQ format: 2 initials (first name) + 2 initials (last name) + 8 digits">
+            </div>
+
+            <!-- Health History Field (Optional) -->
+            <div class="mb-3">
+                <label for="health_history" class="form-label">Health History</label>
+                <textarea class="form-control" id="health_history" rows="4"
+                    placeholder="Enter any relevant health history (optional)"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2 mt-4">
+                <button class="btn btn-primary" type="button" id="registerButton">Register</button>
+            </div>
+            <!-- Submit Button -->
+            <div class="d-grid gap-2 mt-4">
+                <button class="btn btn-primary" type="button" id="backToLoginButton">Return To Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 bg-light py-3 text-center">
+        <p>Contact us: info@bonjour-sante.com | +123 456 7890</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // showing the Z-pane instead of alert()
+        function showZPaneMessage(message, isSuccess = true) {
+    // Set the message text
+    $('#zPaneMessage').text(message);
+
+    // Change the background color based on success or error
+    if (isSuccess) {
+        $('#zPane').css('background-color', '#28a745'); // Green for success
+    } else {
+        $('#zPane').css('background-color', '#dc3545'); // Red for error
+    }
+
+    // Show the z-pane and add the 'show' class for animation
+    $('#zPane').fadeIn();
+
+    // Hide the z-pane after 2.5 seconds
+    setTimeout(function () {
+        $('#zPane').fadeOut();
+    }, 2500); // Hide after 2.5 seconds
+}
+
+$(document).ready(function () {
+    $("#registerButton").click(function () {
+        let newEmail = $("#email").val();
+        let newPassword1 = $("#password").val();
+        let newPassword2 = $("#confirm_password").val();
+        let firstName = $("#first_name").val();
+        let lastName = $("#family_name").val();
+        let phoneNo = $("#phone_no").val();  
+        let postalCode = $("#postal_code").val();  
+        let dob = $("#dob").val();
+        let gender = $("#gender").val();
+        let ramq = $("#ramq").val();
+        let healthHistory = $("#health_history").val();
+
+        // validating matching passwords
+        if (newPassword1 !== newPassword2) {
+            showZPaneMessage("Both passwords must be identical!", false);
+            return;
+        }
+
+        // anyone who registers through this form is a Patient
+        let role = "Patient";
+
+        // creating a user object
+        let userObj = {
+            role: role,
+            email: newEmail,
+            password: newPassword1,
+            first_name: firstName,
+            family_name: lastName,
+            phone_no: phoneNo,  
+            postal_code: postalCode, 
+            gender: gender,
+            dob: dob,
+            ramq_number: ramq,
+            health_history: healthHistory
+        };
+
+        // Send the data to the backend via AJAX
+        $.ajax({
+            url: "http://localhost:8000/api/users",  
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(userObj),
+            success: function (data) {
+                // Show the confirmation modal on success
+                $('#confirmationModal').modal('show');
+                
+                // Set up the redirect button to the login page
+                $('#redirectToLoginBtn').click(function() {
+                    window.location.href = "http://127.0.0.1:5501/front_end/login.html"; // Redirect to login page
+                });
+
+                // Clear form fields
+                $("#email, #password, #confirm_password, #first_name, #family_name, #gender, #dob, #postal_code, #ramq, #health_history").val("");
+            },
+            error: function (jqxhr, status, errorThrown) {
+                showZPaneMessage("AJAX error: " + jqxhr.responseText, false);
+            }
+        });
+    });
+
+    // Link the "Return to Login" button to the login page
+    $('#backToLoginButton').click(function() {
+        window.location.href = "http://127.0.0.1:5501/front_end/login.html"; // Redirect to login page
+    });
+});
+
+    </script>
+
+</body>
+
+</html>

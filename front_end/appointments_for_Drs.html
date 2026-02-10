@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Upcoming Clinics (Daily Appointments for Dr)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="img/bonjour-sante.inline.svg" id="inline" alt="BS logo" class="img-fluid" style="max-width: 150px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="appointments_for_Pts.html">View Your Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="documents.html">View Documents</a>
+                    </li>
+                </ul>
+            </div>
+            <!--OPTIONAL: add a Log Out button-->
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="text-center">
+        <h1>List of Upcoming Appointments</h1>
+        <h2 id="today-date">Today's Date: <span class="date-placeholder">March 15, 2025</span></h2> <!-- Static date for now -->
+        <h3>Welcome, <span id="doctor-name">Dr. John Doe</span></h3>
+    </div>
+        <p>Here is the list of patients for today:</p>
+
+
+        <!-- Patient Appointment Table -->
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Patient Name</th>
+                    <th>Patient Surname</th>
+                    <th>Patient Gender</th>
+                    <th>Date of Birth</th>
+                    <th>RAMQ</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Static row for now, will be populated dynamically via JS or AJAX later -->
+                <tr>
+                    <td>9:00 AM</td>
+                    <td>Emily</td>
+                    <td>Davis</td>
+                    <td>Female</td>
+                    <td>02/10/1990</td>
+                    <td>1234567890</td>
+                    <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#appointmentModal" onclick="openAppointmentModal('9:00 AM', 'March 15, 2025', 'Dr. John Doe', 'Bonjour Santé Clinic', ['Prescription.pdf', 'LabResults.jpg'])">View Details</button></td>
+                </tr>
+                <tr>
+                    <td>10:30 AM</td>
+                    <td>Michael</td>
+                    <td>Wilson</td>
+                    <td>Male</td>
+                    <td>04/14/1985</td>
+                    <td>9876543210</td>
+                    <td><button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#appointmentModal" onclick="openAppointmentModal('10:30 AM', 'March 15, 2025', 'Dr. Jane Smith', 'Family Health Clinic', ['XRayImage.jpg', 'BloodTest.pdf'])">View Details</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for Appointment Details -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">Appointment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Display Appointment Details -->
+                    <div class="mb-3">
+                        <strong>Appointment Time: </strong><span id="appointment-time"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Appointment Date: </strong><span id="appointment-date"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Doctor: </strong><span id="doctor-name-detail"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Clinic: </strong><span id="clinic-name"></span>
+                    </div>
+                    <!-- Additional Documents -->
+                    <div class="mb-3">
+                        <strong>Additional Documents:</strong>
+                        <ul id="documents-list">
+                            <!-- Documents will be added dynamically here -->
+                        </ul>
+                    </div>
+                    <!-- Medical Note, Signature, and Prescription Form -->
+                    <form>
+                        <div class="mb-3">
+                            <label for="medicalNote" class="form-label">Medical Note</label>
+                            <textarea class="form-control" id="medicalNote" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="doctorSignature" class="form-label">Doctor's Signature</label>
+                            <input type="text" class="form-control" id="doctorSignature" placeholder="Full name and prescriptor number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="newRx" class="form-label">Create New Prescription</label>
+                            <input type="file" class="form-control" id="newRx">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 bg-light py-3 text-center">
+        <p>Contact us: info@bonjour-sante.com | +123 456 7890</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Function to populate the appointment modal with details
+        function openAppointmentModal(time, date, doctor, clinic, documents) {
+            // Set the appointment details
+            document.getElementById('appointment-time').textContent = time;
+            document.getElementById('appointment-date').textContent = date;
+            document.getElementById('doctor-name-detail').textContent = doctor;
+            document.getElementById('clinic-name').textContent = clinic;
+
+            // Populate the document list
+            let documentList = document.getElementById('documents-list');
+            documentList.innerHTML = ''; // Clear previous documents
+            documents.forEach(function (doc) {
+                let listItem = document.createElement('li');
+                let link = document.createElement('a');
+                link.href = '#';
+                link.textContent = doc;
+                link.classList.add('text-primary');
+                link.style.textDecoration = 'underline';
+                listItem.appendChild(link);
+                documentList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>

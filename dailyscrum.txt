@@ -1,0 +1,222 @@
+dailyscrum.txt 
+
+FORMAT:
+YYYY/MM/DD - Name
+1/ Done / not done since last scrum:
+-
+-
+2/ Todo until next Scrum:
+-
+-
+3/ Need assistance / figure things out
+-
+-
+
+DATE: 2025/02/20
+
+2025/02/20 Ana
+1. Done / not done since last scrum:
+- did the Class Diagram
+- created dailyscrum.txt
+- working on MySQL tables
+- working on UML Diagram
+
+2. To do until next Scrum:
+- finish the proposal Word doc
+- come up with 2 questions for lecturer
+
+3. Need assistance / figure things out
+- need approval of finished proposal before discussion with lecturer
+
+2025/02/20 Trang
+1. Done since last scrum
+- did description for project
+- took screenshots of BonjourSante
+- set up GitHub repo
+- created Trello board
+
+2. Plan until next Scrum
+- come up with 2 questions for lecturer
+
+3. Need assistance / figure things out
+- need to approve finished proposal before discussion with lecturer
+
+
+
+
+DATE: 2025/02/21
+FORMAT:
+2025/02/21 - Trang
+1/ Done / not done since last scrum:
+- updated the folder structure
+- videos of day07
+- deployed azure
+2/ Todo until next Scrum:
+- database - sequelize
+- Authentification
+- Start with patient register
+3/ Need assistance / figure things out
+- mysql - azure
+- Authentification
+
+FORMAT:
+2025/02/21 - Dang
+1/ Done / not done since last scrum:
+- MySQL database temporary
+- videos day 07
+- ERD for the database
+2/ Todo until next Scrum:
+- sequelize database
+- finish setting up azure hosting
+- CRUD patient appointments
+3/ Need assistance / figure things out
+- github
+- 
+
+FORMAT:
+2025/02/21 - Ana
+1/ Done / not done since last scrum:
+- did HTML for 10 URL
+- CSS done for all of these 10
+- watched the day 07 video
+- submitted final version of proposal
+- finished HTML/CSS/Boostrap
+
+2/ Todo until next Scrum:
+- validate front-end design
+- finish setting Azure 
+- JSON
+
+3/ Need assistance / figure things out
+- Authentification
+- Automated emails for password recovery 
+
+
+
+
+DATE: 2025-02-23
+FORMAT:
+2025-02-23 - Trang
+1/ Done / not done since last scrum:
+- dr appointments (CRUD)
+2/ Todo until next Scrum:
+- password recovery
+- confirmation email
+- blob
+3/ Need assistance / figure things out
+- testing
+-
+
+
+FORMAT:
+2025/02/23 - Ana
+1/ Done / not done since last scrum:
+- JSON on html pages
+- wrote routes 
+- obtained approval for front-end
+- testing gmail account
+2/ Todo until next Scrum:
+- functions and testing for loging/registration
+- 
+3/ Need assistance / figure things out
+- testing routes
+-
+
+FORMAT:
+2025/02/23 - Dang
+1/ Done / not done since last scrum:
+- sequelize models
+- appointment controller
+2/ Todo until next Scrum:
+- appointment CRUD
+-
+3/ Need assistance / figure things out
+- testing 
+- github
+
+
+
+DATE 2025-02-24
+FORMAT:
+2025-02-24 - Trang
+1/ Done / not done since last scrum:
+- done: sync database
+- not done: connecting reset-password and recovery-password
+2/ Todo until next Scrum:
+- connect reset-password and recovery-password
+- start on blob
+3/ Need assistance / figure things out
+- testing
+-
+
+FORMAT:
+YYYY/MM/DD - Ana
+1/ Done / not done since last scrum:
+- function for login/registration done
+- migrate sequelize-cli user table 
+2/ Todo until next Scrum:
+- testing and improvements 
+-
+3/ Need assistance / figure things out
+- testing
+-
+
+
+FORMAT:
+2025/02/24 - Dang
+1/ Done / not done since last scrum:
+- finished appointment CRUD
+- added clinic contorller with create function 
+- fixed some of the models to match mysql
+2/ Todo until next Scrum:
+- frontend for appoinment CRUD
+-
+3/ Need assistance / figure things out
+- aasitance with frontend
+-
+
+
+
+
+DATE 2025-02-25
+FORMAT:
+2025-02-25 - Trang
+1/ Done / not done since last scrum:
+- patient can view and add documents
+- not done: dowload documents
+- password recovery
+2/ Todo until next Scrum:
+- download documents
+- password recovery
+3/ Need assistance / figure things out
+-
+-
+
+FORMAT:
+2025/02/25 - Dang
+1/ Done / not done since last scrum:
+- added CRUD to clinics
+- started frontend end AJAX for appointments,
+2/ Todo until next Scrum:
+- Properly connect API for clinics
+- Finish frontend appointment
+3/ Need assistance / figure things out
+- testing
+- frontend
+
+
+FORMAT:
+2025/02/25 - Ana
+1/ Done / not done since last scrum:
+- users can log in 
+- patients can register
+- migrated Users table with Sequelize-CLI
+2/ Todo until next Scrum:
+- fluid transition from login to user profile
+- users can change passwords
+- add 404 page
+- finish PowerPoint as teamwork
+3/ Need assistance / figure things out
+- testing
+- PowerPoint 
+- collab password recovery with password change 
