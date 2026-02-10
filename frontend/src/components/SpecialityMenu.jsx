@@ -32,7 +32,11 @@ const SpecialityMenu = () => {
           const icon = iconMap[speciality.speciality] || 'medical_services';
           
           return (
-            <Link key={speciality.speciality} to="/doctors" className="flex flex-col items-center p-8 bg-white border border-slate-200 rounded-2xl hover:border-blue-800/30 hover:shadow-lg transition-all cursor-pointer group">
+            <Link 
+              key={speciality.speciality} 
+              to={`/doctors/${encodeURIComponent(speciality.speciality)}`} 
+              className="flex flex-col items-center p-8 bg-white border border-slate-200 rounded-2xl hover:border-blue-800/30 hover:shadow-lg transition-all cursor-pointer group"
+            >
               <div className="size-16 bg-slate-50 text-blue-800 rounded-full flex items-center justify-center mb-5 group-hover:bg-blue-800 group-hover:text-white transition-all">
                 <span className="material-symbols-outlined text-3xl">{icon}</span>
               </div>
