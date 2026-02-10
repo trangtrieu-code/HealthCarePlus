@@ -122,7 +122,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* Create an Account */}
       <section className="flex flex-1 justify-center px-4 md:px-8 lg:px-40 py-24 bg-slate-50">
         <div className="max-w-[1200px] flex-1 bg-slate-800 rounded-[2.5rem] p-8 md:p-12 lg:p-24 relative overflow-hidden text-center flex flex-col items-center gap-10 shadow-2xl">
           <div className="absolute top-0 right-0 w-80 h-80 bg-blue-800/10 blur-[120px] rounded-full -mr-32 -mt-32" aria-hidden />
