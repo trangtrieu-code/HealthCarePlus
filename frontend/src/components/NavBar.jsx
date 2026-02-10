@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Heart, ChevronDown } from 'lucide-react'
+import { Diamond, ChevronDown } from 'lucide-react'
 import { assets } from '../assets/assets.js'
 
 const NavBar = () => {
@@ -36,7 +36,7 @@ const NavBar = () => {
       <div className="flex items-center gap-6 sm:gap-8">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 text-blue-800">
-          <Heart className="size-5 shrink-0 text-sky-400 fill-current" />
+          <Diamond className="size-5 shrink-0 text-sky-400 fill-current" />
           <span className="text-lg font-bold">HealthCare Plus</span>
         </Link>
         {/* Navigation */}

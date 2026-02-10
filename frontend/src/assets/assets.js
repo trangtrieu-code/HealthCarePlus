@@ -13,6 +13,10 @@ import dr12 from "./dr/dr12.png";
 import dr13 from "./dr/dr13.png";
 import dr14 from "./dr/dr14.png";
 import dr15 from "./dr/dr15.png";
+import drsc from "./dr/drsc.jpg";
+import drmt from "./dr/drmt.jpg";
+import drer from "./dr/drer.jpg";
+import drjw from "./dr/drjw.jpg";
 import homeImage from "./home.jpg";
 import about from "./about.jpg";
 import contact from "./contact.jpg";
@@ -34,6 +38,10 @@ export const assets = {
   dr13,
   dr14,
   dr15,
+  drsc,
+  drmt,
+  drer,
+  drjw,
   homeImage,
   about,
   contact,
