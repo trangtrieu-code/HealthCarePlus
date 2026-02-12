@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { specialityData } from '../assets/assets.js'
+import { specialityData } from '../../assets/assets.js'
 
 const SpecialityMenu = () => {
   // Map specialty names to Material Symbols icons

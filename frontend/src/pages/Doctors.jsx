@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import { useParams, NavLink } from 'react-router-dom'
-import { doctors, specialityData } from '../assets/assets.js'
-import DrCard from '../components/DrCard.jsx'
+import { AppContext } from '../context/AppContext'
+import { specialityData } from '../assets/assets.js'
+import DrCard from '../components/doctor/DrCard.jsx'
 
 const Doctors = () => {
   const { speciality } = useParams()
+  const { doctors } = useContext(AppContext)
 
   const filterDoc = useMemo(() => {
     if (!speciality) {
@@ -44,6 +46,7 @@ const Doctors = () => {
                 All Doctors
               </NavLink>
               {specialityData.map((item) => (
+                /*(Speciality Menu)*/
                 <NavLink
                   key={item.speciality}
                   to={`/doctors/${encodeURIComponent(item.speciality)}`}

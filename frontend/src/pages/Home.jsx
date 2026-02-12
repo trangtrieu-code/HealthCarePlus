@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../components/Header.jsx'
-import SpecialityMenu from '../components/SpecialityMenu.jsx'
+import SpecialityMenu from '../components/doctor/SpecialityMenu.jsx'
 import { assets } from '../assets/assets.js'
 
 const Home = () => {
