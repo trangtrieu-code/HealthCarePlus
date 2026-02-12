@@ -7,10 +7,10 @@ import About from './pages/About.jsx'
 import Doctors from './pages/Doctors.jsx'
 import Contact from './pages/Contact.jsx'
 import Appointment from './pages/Appointment.jsx'
-import MyProfile from './pages/MyProfile.jsx'
-import MyAppointment from './pages/MyAppointment.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
+import MyProfile from './pages/MyProfile.jsx'
+import MyAppointment from './pages/MyAppointment.jsx'
 import NavBar from './components/NavBar.jsx'
 import Footer from './components/Footer.jsx'
 
@@ -26,10 +26,10 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/appointment/:docId" element={<Appointment />} />
-          <Route path="/my-profile" element={<MyProfile />} />
-          <Route path="/my-appointments" element={<MyAppointment />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/my-appointments" element={<MyAppointment />} />
         </Routes>
         <Footer />
       </div>
